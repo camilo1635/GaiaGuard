@@ -24,6 +24,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.gaiaguard.ui.screen.game.GameScreen
 import com.example.gaiaguard.ui.screen.levels.LevelSelectionScreen
 import com.example.gaiaguard.ui.screen.welcome.WelcomeScreen
 import javax.sql.DataSource
@@ -34,7 +35,6 @@ enum class GaiaGuardScreen(@StringRes val title: Int) {
     ObjectiveSelection(title = R.string.objective_selection),
     LevelSelection(title = R.string.level_selection),
     Game(title = R.string.game)
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,6 +83,7 @@ fun GaiaGuardApp(
         }
 
     ) { innerPadding ->
+        val gameUiState by gaiaGuardViewModel.gameUiState.collectAsState()
         val welcomeUiState by gaiaGuardViewModel.welcomeUiState.collectAsState()
         val levelSelectedUiState by gaiaGuardViewModel.levelSelectedUiState.collectAsState()
         //val uiState by viewModel.uiState.collectAsState()
@@ -107,6 +108,21 @@ fun GaiaGuardApp(
                         navController.navigate(GaiaGuardScreen.Game.name)}
                 )
             }
+            
+            composable(route = GaiaGuardScreen.Game.name) {
+                GameScreen(
+                    updateUserGuess = { gaiaGuardViewModel.updateUserGuess(it) },
+                    userGuess = gaiaGuardViewModel.userGuess,
+                    checkUserGuess = { gaiaGuardViewModel.checkUserGuess() },
+                    skipWord = { gaiaGuardViewModel.skipWord() },
+                    resetGame = { gaiaGuardViewModel.resetGame() },
+                    currentWordCount = gameUiState.currentWordCount,
+                    currentScrambledWord = gameUiState.currentScrambledWord,
+                    isGuessedWordWrong = gameUiState.isGuessedWordWrong,
+                    score = gameUiState.score,
+                    isGameOver = gameUiState.isGameOver
+                )
+            }
 
             /*
             LaunchedEffect(key1 = levelSelectedUiState.levelSelected) {
@@ -114,7 +130,6 @@ fun GaiaGuardApp(
                     navController.navigate(MainActivityScreen.Management.name)
                 }
             }
-
              */
         }
     }
