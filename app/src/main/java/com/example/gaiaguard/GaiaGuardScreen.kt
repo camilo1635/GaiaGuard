@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -23,12 +24,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.gaiaguard.ui.screen.levels.LevelSelectionScreen
 import com.example.gaiaguard.ui.screen.welcome.WelcomeScreen
 import javax.sql.DataSource
 
 
 enum class GaiaGuardScreen(@StringRes val title: Int) {
-    Welcome(title = R.string.app_name)
+    Welcome(title = R.string.app_name),
+    ObjectiveSelection(title = R.string.objective_selection),
+    LevelSelection(title = R.string.level_selection),
+    Game(title = R.string.game)
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -63,7 +69,6 @@ fun GaiaGuardApp(
     gaiaGuardViewModel: GaiaGuardViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
-    val welcomeUiState by gaiaGuardViewModel.welcomeUiState.collectAsState()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = GaiaGuardScreen.valueOf(
         backStackEntry?.destination?.route ?: GaiaGuardScreen.Welcome.name
@@ -78,6 +83,8 @@ fun GaiaGuardApp(
         }
 
     ) { innerPadding ->
+        val welcomeUiState by gaiaGuardViewModel.welcomeUiState.collectAsState()
+        val levelSelectedUiState by gaiaGuardViewModel.levelSelectedUiState.collectAsState()
         //val uiState by viewModel.uiState.collectAsState()
 
         NavHost(
@@ -92,20 +99,23 @@ fun GaiaGuardApp(
                     onStartGame = {  })
             }
 
+            composable(route = GaiaGuardScreen.LevelSelection.name) {
+                //val context = LocalContext.current
+                LevelSelectionScreen (
+                    onLevelSelected = {
+                        gaiaGuardViewModel.updateLevelSelected(it)
+                        navController.navigate(GaiaGuardScreen.Game.name)}
+                )
+            }
+
             /*
-                        composable(route = CupcakeScreen.Flavor.name) {
-                            val context = LocalContext.current
-                            SelectOptionScreen(
-                                subtotal = uiState.price,
-                                onNextButtonClicked = { navController.navigate(CupcakeScreen.Pickup.name) },
-                                onCancelButtonClicked = { cancelOrderAndNavigateToStart(viewModel, navController) },
-                                options = DataSource.flavors.map { id -> context.resources.getString(id) },
-                                onSelectionChanged = { viewModel.setFlavor(it) },
-                                modifier = Modifier.fillMaxHeight()
-                            )
-                        }
-            
-                         */
+            LaunchedEffect(key1 = levelSelectedUiState.levelSelected) {
+                if (levelSelectedUiState.levelSelected == ) {
+                    navController.navigate(MainActivityScreen.Management.name)
+                }
+            }
+
+             */
         }
     }
 }

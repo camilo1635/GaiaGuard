@@ -7,4 +7,6 @@
     <string name="level_two">Nivel dos</string>
     <string name="level_three">Nivel tres</string>
     <string name="continue_button">Continuar</string>
+    <string name="game">Ordena las letras</string>
+    <string name="objective_selection">Seleciona un tema</string>
 </resources>
