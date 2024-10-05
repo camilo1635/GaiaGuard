@@ -19,16 +19,29 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             GaiaGuardTheme {
-                GaiaGuardApp()
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Greeting(
+                        name = "Android",
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
             }
         }
     }
+}
+
+@Composable
+fun Greeting(name: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Hello $name!",
+        modifier = modifier
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     GaiaGuardTheme {
-        GaiaGuardApp()
+        Greeting("Android")
     }
 }
