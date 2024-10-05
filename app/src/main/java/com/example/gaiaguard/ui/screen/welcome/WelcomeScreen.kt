@@ -55,7 +55,7 @@ fun WelcomeScreen(
 
         // Imagen del juego (reemplázala con tu imagen)
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_foreground), // Reemplaza con tuimagen
+            painter = painterResource(id = R.drawable.icono), // Reemplaza con tuimagen
             contentDescription = "Descripción del juego",
             modifier = Modifier.size(200.dp)
         )
