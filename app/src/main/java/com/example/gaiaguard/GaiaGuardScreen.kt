@@ -88,7 +88,7 @@ fun GaiaGuardApp(
             
             composable(route = GaiaGuardScreen.Welcome.name) {
                 WelcomeScreen(
-                    onNameEntered = {  },
+                    onNameEntered = { gaiaGuardViewModel.updateParticipantName(it) },
                     onStartGame = {  })
             }
 

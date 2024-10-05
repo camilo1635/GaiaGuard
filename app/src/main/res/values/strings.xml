@@ -2,4 +2,9 @@
     <string name="app_name" translatable="false">GaiaGuard</string>
     <string name="app_description">Este es un juego interactivo de ordenar palabras. Mientras te diviertes jugando aprende sobre los Objetivos de Desarrollo Sostenible para el desarrollo mundial</string>
     <string name="back_button">Atrás</string>
+    <string name="level_selection">Selecciona un nivel</string>
+    <string name="level_one">Nivel uno</string>
+    <string name="level_two">Nivel dos</string>
+    <string name="level_three">Nivel tres</string>
+    <string name="continue_button">Continuar</string>
 </resources>

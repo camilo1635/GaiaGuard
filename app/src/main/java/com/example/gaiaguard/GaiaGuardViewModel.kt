@@ -10,6 +10,8 @@ class GaiaGuardViewModel: ViewModel() {
     private val _welcomeUiState = MutableStateFlow(WelcomeUiState())
     val welcomeUiState: StateFlow<WelcomeUiState> = _welcomeUiState.asStateFlow()
 
+
+
     fun updateParticipantName(name: String) {
         _welcomeUiState.value = _welcomeUiState.value.copy(participantName = name)
     }
