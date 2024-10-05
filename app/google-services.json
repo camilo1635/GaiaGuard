@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "964848992105",
+    "project_id": "nasa-space-challenge-a1c0e",
+    "storage_bucket": "nasa-space-challenge-a1c0e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:964848992105:android:68307a1099ee6f5dbc87f8",
+        "android_client_info": {
+          "package_name": "com.example.gaiaguard"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKMzfITnfw0Q-VhFi-ijtGB-srjJk8R78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
