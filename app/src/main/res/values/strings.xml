@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">GaiaGuard</string>
+    <string name="app_name" translatable="false">GaiaGuard</string>
+    <string name="app_description">Este es un juego interactivo de ordenar palabras. Mientras te diviertes jugando aprende sobre los Objetivos de Desarrollo Sostenible para el desarrollo mundial</string>
+    <string name="back_button">Atrás</string>
 </resources>
