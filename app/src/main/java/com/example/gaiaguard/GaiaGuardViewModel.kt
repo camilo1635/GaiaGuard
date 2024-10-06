@@ -4,11 +4,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.gaiaguard.data.repository.ObjectivesRepository
 import com.example.gaiaguard.data.source.MAX_NO_OF_WORDS
+import com.example.gaiaguard.data.source.ObjectivesLocalDataSource
 import com.example.gaiaguard.data.source.SCORE_INCREASE
 import com.example.gaiaguard.data.source.allWords
 import com.example.gaiaguard.ui.screen.game.GameUiState
 import com.example.gaiaguard.ui.screen.levels.LevelSelectionUiState
+import com.example.gaiaguard.ui.screen.menu.MenuUiState
 import com.example.gaiaguard.ui.screen.welcome.WelcomeUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,8 +19,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class GaiaGuardViewModel: ViewModel() {
+
+
+    private lateinit var objectivesRepository: ObjectivesRepository
+
     private val _welcomeUiState = MutableStateFlow(WelcomeUiState())
     val welcomeUiState: StateFlow<WelcomeUiState> = _welcomeUiState.asStateFlow()
+
+    private val _objetiveSelectionUiState = MutableStateFlow(MenuUiState())
+    val objetiveSelectionUiState: StateFlow<MenuUiState> = _objetiveSelectionUiState.asStateFlow()
 
     private val _levelSelectedUiState = MutableStateFlow(LevelSelectionUiState())
     val levelSelectedUiState: StateFlow<LevelSelectionUiState> = _levelSelectedUiState.asStateFlow()
@@ -34,6 +44,8 @@ class GaiaGuardViewModel: ViewModel() {
     private lateinit var currentWord: String
 
     init {
+        objectivesRepository = ObjectivesRepository(ObjectivesLocalDataSource())
+        getTask()
         resetGame()
     }
 
@@ -136,6 +148,11 @@ class GaiaGuardViewModel: ViewModel() {
             usedWords.add(currentWord)
             shuffleCurrentWord(currentWord)
         }
+    }
+
+    private fun getTask() {
+        val task = objectivesRepository.getTask()
+        _objetiveSelectionUiState.update { it.copy(task = task) }
     }
 
 

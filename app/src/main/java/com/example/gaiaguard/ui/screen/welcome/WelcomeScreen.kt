@@ -34,7 +34,8 @@ import com.example.gaiaguard.R
 @Composable
 fun WelcomeScreen(
     onNameEntered: (String) -> Unit,
-    onStartGame: () -> Unit
+    onStartGame: () -> Unit,
+    name: String
 ) {
     var participantName by remember { mutableStateOf("") }
 
@@ -98,6 +99,7 @@ fun WelcomeScreen(
 fun WelcomeScreenPreview() {
     WelcomeScreen(
         onNameEntered = {},
-        onStartGame = {}
+        onStartGame = {},
+        name = ""
     )
 }
