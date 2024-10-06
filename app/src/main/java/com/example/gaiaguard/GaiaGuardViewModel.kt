@@ -97,6 +97,15 @@ class GaiaGuardViewModel: ViewModel() {
             // User's guess is correct, increase the score
             // and call updateGameState() to prepare the game for next round
             val updatedScore = _gameUiState.value.score.plus(SCORE_INCREASE)
+
+            val item = getItemUsingWord()
+
+            _gameUiState.update { currentState ->
+                currentState.copy(
+                    showItemDetails = true,
+                    item = item)
+            }
+
             updateGameState(updatedScore)
         } else {
             // User's guess is wrong, show an error
@@ -106,6 +115,16 @@ class GaiaGuardViewModel: ViewModel() {
         }
         // Reset user guess
         updateUserGuess("")
+    }
+
+    private fun getItemUsingWord(): Item {
+        for (item in items) {
+            if (item.palabra.equals(currentWord)) {
+                return item
+            }
+        }
+
+        return Item()
     }
 
     /*
@@ -194,5 +213,9 @@ class GaiaGuardViewModel: ViewModel() {
                 pickRandomWordAndShuffle()
             }
         }
+    }
+
+    fun updateShowItemDetails(b: Boolean) {
+        _gameUiState.update { it.copy(showItemDetails = b) }
     }
 }
