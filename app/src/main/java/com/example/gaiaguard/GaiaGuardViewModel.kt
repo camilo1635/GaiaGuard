@@ -1,26 +1,32 @@
 package com.example.gaiaguard
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.gaiaguard.data.model.Item
 import com.example.gaiaguard.data.repository.ObjectivesRepository
 import com.example.gaiaguard.data.source.MAX_NO_OF_WORDS
 import com.example.gaiaguard.data.source.ObjectivesLocalDataSource
+import com.example.gaiaguard.data.source.ObjectivesRemoteDataSource
 import com.example.gaiaguard.data.source.SCORE_INCREASE
 import com.example.gaiaguard.data.source.allWords
 import com.example.gaiaguard.ui.screen.game.GameUiState
 import com.example.gaiaguard.ui.screen.levels.LevelSelectionUiState
 import com.example.gaiaguard.ui.screen.menu.MenuUiState
 import com.example.gaiaguard.ui.screen.welcome.WelcomeUiState
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class GaiaGuardViewModel: ViewModel() {
 
-
+    private var items: List<Item> = mutableListOf()
     private lateinit var objectivesRepository: ObjectivesRepository
 
     private val _welcomeUiState = MutableStateFlow(WelcomeUiState())
@@ -29,8 +35,11 @@ class GaiaGuardViewModel: ViewModel() {
     private val _objetiveSelectionUiState = MutableStateFlow(MenuUiState())
     val objetiveSelectionUiState: StateFlow<MenuUiState> = _objetiveSelectionUiState.asStateFlow()
 
-    private val _levelSelectedUiState = MutableStateFlow(LevelSelectionUiState())
-    val levelSelectedUiState: StateFlow<LevelSelectionUiState> = _levelSelectedUiState.asStateFlow()
+    var levelSelected by mutableStateOf(1)
+        private set
+
+    var objectiveSelected by mutableStateOf(1)
+        private set
 
     // Game UI state
     private val _gameUiState = MutableStateFlow(GameUiState())
@@ -44,9 +53,11 @@ class GaiaGuardViewModel: ViewModel() {
     private lateinit var currentWord: String
 
     init {
-        objectivesRepository = ObjectivesRepository(ObjectivesLocalDataSource())
-        getTask()
-        resetGame()
+        objectivesRepository = ObjectivesRepository(
+            ObjectivesLocalDataSource(),
+            ObjectivesRemoteDataSource(FirebaseFirestore.getInstance()))
+
+        //resetGame()
     }
 
 
@@ -54,8 +65,12 @@ class GaiaGuardViewModel: ViewModel() {
         _welcomeUiState.value = _welcomeUiState.value.copy(participantName = name)
     }
 
+    fun updateObjectiveSelected(objectiveId: Int) {
+        objectiveSelected = objectiveId
+    }
+
     fun updateLevelSelected(level: Int) {
-        _levelSelectedUiState.value = _levelSelectedUiState.value.copy(levelSelected = level)
+        levelSelected = level
     }
 
     /*
@@ -107,7 +122,7 @@ class GaiaGuardViewModel: ViewModel() {
      * current game state.
      */
     private fun updateGameState(updatedScore: Int) {
-        if (usedWords.size == MAX_NO_OF_WORDS){
+        if (usedWords.size == items.size){
             //Last round in the game, update isGameOver to true, don't pick a new word
             _gameUiState.update { currentState ->
                 currentState.copy(
@@ -140,20 +155,44 @@ class GaiaGuardViewModel: ViewModel() {
     }
 
     private fun pickRandomWordAndShuffle(): String {
-        // Continue picking up a new random word until you get one that hasn't been used before
-        currentWord = allWords.random()
-        return if (usedWords.contains(currentWord)) {
-            pickRandomWordAndShuffle()
+        if (!items.isEmpty()) {
+            val allWords = items.map { it.palabra }
+            // Continue picking up a new random word until you get one that hasn't been used before
+            currentWord = allWords.random().toString()
+            return if (usedWords.contains(currentWord)) {
+                pickRandomWordAndShuffle()
+            } else {
+                usedWords.add(currentWord)
+                shuffleCurrentWord(currentWord)
+            }
         } else {
-            usedWords.add(currentWord)
-            shuffleCurrentWord(currentWord)
+
+            currentWord = "Sin palabras disponibles"
+            return currentWord
         }
     }
 
-    private fun getTask() {
-        val task = objectivesRepository.getTask()
-        _objetiveSelectionUiState.update { it.copy(task = task) }
+    fun getObjectives() {
+        viewModelScope.launch {
+            objectivesRepository.getObjectives().collect {
+                objectives ->
+                    _objetiveSelectionUiState.update { it.copy(task = objectives) }
+            }
+        }
     }
 
+    fun getObjective(objectiveId: Int): String {
+        return _objetiveSelectionUiState.value.task.find { it.numeroODS == objectiveId }?.nombre ?: ""
+    }
 
+    fun getItemsFromObjective(objectiveId: String) {
+        Log.d("GaiaGuardViewModel", "getItemsFromObjective called with objectiveId: $objectiveId")
+        viewModelScope.launch {
+            objectivesRepository.getItemsFromObjective(objectiveId).collect {
+                Log.d("GaiaGuardViewModel", "Items from objective $objectiveId: $it")
+                items = it
+                pickRandomWordAndShuffle()
+            }
+        }
+    }
 }

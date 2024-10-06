@@ -87,8 +87,6 @@ fun GaiaGuardApp(
         val gameUiState by gaiaGuardViewModel.gameUiState.collectAsState()
         val welcomeUiState by gaiaGuardViewModel.welcomeUiState.collectAsState()
         val objetiveSelectionUiState by gaiaGuardViewModel.objetiveSelectionUiState.collectAsState()
-        val levelSelectedUiState by gaiaGuardViewModel.levelSelectedUiState.collectAsState()
-        //val uiState by viewModel.uiState.collectAsState()
 
         NavHost(
             navController = navController,
@@ -104,18 +102,25 @@ fun GaiaGuardApp(
             }
 
             composable(route = GaiaGuardScreen.ObjectiveSelection.name) {
-                ObjectivesSelectionScreen(options = objetiveSelectionUiState.task) {
-                    navController.navigate(GaiaGuardScreen.LevelSelection.name)
-                }
+                gaiaGuardViewModel.getObjectives()
+
+                ObjectivesSelectionScreen(
+                    options = objetiveSelectionUiState.task,
+                    onOptionSelected = {
+                        gaiaGuardViewModel.updateObjectiveSelected(it.numeroODS)
+                        gaiaGuardViewModel.getItemsFromObjective(it.documentId)
+                        navController.navigate(GaiaGuardScreen.LevelSelection.name)
+                    })
             }
 
             composable(route = GaiaGuardScreen.LevelSelection.name) {
                 //val context = LocalContext.current
-                LevelSelectionScreen (
+                LevelSelectionScreen(
                     onLevelSelected = {
                         gaiaGuardViewModel.updateLevelSelected(it)
-                        navController.navigate(GaiaGuardScreen.Game.name)}
-                )
+                        navController.navigate(GaiaGuardScreen.Game.name) },
+                    name = welcomeUiState.participantName,
+                    objective = gaiaGuardViewModel.getObjective(gaiaGuardViewModel.objectiveSelected))
             }
             
             composable(route = GaiaGuardScreen.Game.name) {

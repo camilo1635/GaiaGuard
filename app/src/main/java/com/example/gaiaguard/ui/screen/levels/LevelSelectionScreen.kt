@@ -28,7 +28,12 @@ import androidx.compose.ui.unit.sp
 import com.example.gaiaguard.R
 
 @Composable
-fun LevelSelectionScreen(onLevelSelected: (Int) -> Unit) {
+fun LevelSelectionScreen(
+    onLevelSelected: (Int) -> Unit,
+    name: String,
+    objective: String,
+    modifier: Modifier = Modifier) {
+
     var selectedLevel by remember { mutableStateOf(1) } // Nivel seleccionado por defecto
 
     Column(
@@ -38,6 +43,17 @@ fun LevelSelectionScreen(onLevelSelected: (Int) -> Unit) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text(
+            text = "$name, tu objetivo es:",
+            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold)
+        )
+        Text(
+            text = objective,
+            style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight.Bold)
+        )
+
+        Spacer(modifier = Modifier.height(128.dp))
+
         Text(
             text = stringResource(id = R.string.level_description),
             style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold)
@@ -95,5 +111,8 @@ fun LevelButton(level: Int, isSelected: Boolean, onClick: () -> Unit) {
 @Composable
 @Preview(showSystemUi = true)
 fun LevelSelectionScreenPreview() {
-    LevelSelectionScreen(onLevelSelected = {})
+    LevelSelectionScreen(
+        onLevelSelected = {},
+        name = "Camilo",
+        objective = "Acabar el hambre")
 }
