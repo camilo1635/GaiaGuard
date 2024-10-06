@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.gaiaguard.data.model.ObjectiveItem
@@ -35,6 +37,7 @@ fun ObjectivesItem(
 {
     Button(
         onClick = { onClick(option.numeroODS) },
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF167D78)),
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
