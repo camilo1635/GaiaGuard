@@ -67,7 +67,7 @@ fun WelcomeScreen(
         // Descripción del juego
         Text(
             text = stringResource(id = R.string.app_description),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         Spacer(modifier = Modifier.height(64.dp))

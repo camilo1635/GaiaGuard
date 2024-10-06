@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -34,7 +35,7 @@ fun ItemDetailsScreen(item: Item) {
             contentDescription = item.descripcion,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(250.dp)
                 .clip(RoundedCornerShape(8.dp)),
             contentScale = ContentScale.Crop
         )
@@ -44,18 +45,35 @@ fun ItemDetailsScreen(item: Item) {
         // Título
         Text(
             text = item.palabra ?: "Título no disponible",
-            style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            style = TextStyle(
+                fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                fontStyle = MaterialTheme.typography.titleLarge.fontStyle,
+                fontFamily = MaterialTheme.typography.titleLarge.fontFamily,
+                fontWeight = FontWeight.Bold)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         // Descripción
-        Text(text = item.descripcion ?: "Descripción no disponible")
+        Text(
+            text = item.descripcion ?: "Descripción no disponible",
+            style = TextStyle(
+                fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                fontStyle = MaterialTheme.typography.titleLarge.fontStyle,
+                fontFamily = MaterialTheme.typography.titleLarge.fontFamily)
+            )
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // Enlace de referenciaTextButton(onClick = { /* Acción al hacer clic en el enlace */ }) {
-        Text("Ver referencia")
+        Text(
+            text = item.referencia ?: "No hay referencias disponibles",
+            style = TextStyle(
+                color = MaterialTheme.colorScheme.primary,
+                fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+                fontStyle = MaterialTheme.typography.titleLarge.fontStyle,
+                fontFamily = MaterialTheme.typography.titleLarge.fontFamily)
+        )
     }
 
 }
