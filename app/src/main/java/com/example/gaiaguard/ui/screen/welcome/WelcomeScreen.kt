@@ -45,11 +45,6 @@ fun WelcomeScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Título del juego
-        Text(
-            text = stringResource(id = R.string.app_name),
-            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold)
-        )
 
         Spacer(modifier = Modifier.height(32.dp))
 
