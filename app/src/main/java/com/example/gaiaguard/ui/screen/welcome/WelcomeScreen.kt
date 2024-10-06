@@ -83,7 +83,6 @@ fun WelcomeScreen(
         // Botón para comenzar el juego
         Button(
             onClick = {
-                onNameEntered(name)
                 onStartGame()
             },
             modifier = Modifier.fillMaxWidth()

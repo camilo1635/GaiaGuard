@@ -26,6 +26,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.gaiaguard.ui.screen.game.GameScreen
 import com.example.gaiaguard.ui.screen.levels.LevelSelectionScreen
+import com.example.gaiaguard.ui.screen.menu.ObjectivesSelectionScreen
 import com.example.gaiaguard.ui.screen.welcome.WelcomeScreen
 import javax.sql.DataSource
 
@@ -85,6 +86,7 @@ fun GaiaGuardApp(
     ) { innerPadding ->
         val gameUiState by gaiaGuardViewModel.gameUiState.collectAsState()
         val welcomeUiState by gaiaGuardViewModel.welcomeUiState.collectAsState()
+        val objetiveSelectionUiState by gaiaGuardViewModel.objetiveSelectionUiState.collectAsState()
         val levelSelectedUiState by gaiaGuardViewModel.levelSelectedUiState.collectAsState()
         //val uiState by viewModel.uiState.collectAsState()
 
@@ -99,6 +101,12 @@ fun GaiaGuardApp(
                     onNameEntered = { gaiaGuardViewModel.updateParticipantName(it) },
                     onStartGame = { navController.navigate(GaiaGuardScreen.ObjectiveSelection.name) },
                     name = welcomeUiState.participantName)
+            }
+
+            composable(route = GaiaGuardScreen.ObjectiveSelection.name) {
+                ObjectivesSelectionScreen(options = objetiveSelectionUiState.task) {
+                    navController.navigate(GaiaGuardScreen.LevelSelection.name)
+                }
             }
 
             composable(route = GaiaGuardScreen.LevelSelection.name) {
