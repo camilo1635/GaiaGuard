@@ -1,5 +1,6 @@
 package com.example.gaiaguard
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -31,6 +32,7 @@ import com.example.gaiaguard.ui.screen.menu.ObjectivesSelectionScreen
 import com.example.gaiaguard.ui.screen.welcome.WelcomeScreen
 import javax.sql.DataSource
 
+const val TAG = "GAIAGUARDSCREEN"
 
 enum class GaiaGuardScreen(@StringRes val title: Int) {
     Welcome(title = R.string.app_name),
@@ -109,20 +111,25 @@ fun GaiaGuardApp(
                 ObjectivesSelectionScreen(
                     options = objetiveSelectionUiState.task,
                     onOptionSelected = {
-                        gaiaGuardViewModel.updateObjectiveSelected(it.numeroODS)
-                        gaiaGuardViewModel.getItemsFromObjective(it.documentId)
+                        gaiaGuardViewModel.updateObjectiveSelected(it)
+                        //gaiaGuardViewModel.getItemsFromObjective(it.documentId)
                         navController.navigate(GaiaGuardScreen.LevelSelection.name)
                     })
             }
 
             composable(route = GaiaGuardScreen.LevelSelection.name) {
                 //val context = LocalContext.current
+                //gaiaGuardViewModel.resetGame()
                 LevelSelectionScreen(
                     onLevelSelected = {
+                        Log.d(TAG, it.toString())
                         gaiaGuardViewModel.updateLevelSelected(it)
+                        gaiaGuardViewModel.getItemsFromObjective(
+                            gaiaGuardViewModel.objectiveSelected.documentId, it)
+                        gaiaGuardViewModel.resetGame()
                         navController.navigate(GaiaGuardScreen.Game.name) },
                     name = welcomeUiState.participantName,
-                    objective = gaiaGuardViewModel.getObjective(gaiaGuardViewModel.objectiveSelected))
+                    objective = gaiaGuardViewModel.getObjective(gaiaGuardViewModel.objectiveSelected.numeroODS))
             }
             
             composable(route = GaiaGuardScreen.Game.name) {

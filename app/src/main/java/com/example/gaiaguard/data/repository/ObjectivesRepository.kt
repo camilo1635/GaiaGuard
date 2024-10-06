@@ -13,5 +13,5 @@ class ObjectivesRepository (
 
     suspend fun getObjectives(): Flow<List<ObjectiveItem>> = objectivesRemoteDataSource.getObjectives()
 
-    suspend fun getItemsFromObjective(objectiveId: String): Flow<List<Item>> = objectivesRemoteDataSource.getItemsFromObjective(objectiveId)
+    suspend fun getItemsFromObjective(objectiveId: String, level: Int): Flow<List<Item>> = objectivesRemoteDataSource.getItemsFromObjective(objectiveId, level)
 }

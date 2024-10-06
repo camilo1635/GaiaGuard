@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.gaiaguard.data.model.Item
+import com.example.gaiaguard.data.model.ObjectiveItem
 import com.example.gaiaguard.data.repository.ObjectivesRepository
 import com.example.gaiaguard.data.source.MAX_NO_OF_WORDS
 import com.example.gaiaguard.data.source.ObjectivesLocalDataSource
@@ -28,6 +29,7 @@ class GaiaGuardViewModel: ViewModel() {
 
     private var items: List<Item> = mutableListOf()
     private lateinit var objectivesRepository: ObjectivesRepository
+    private var allWords: MutableSet<String> = mutableSetOf()
 
     private val _welcomeUiState = MutableStateFlow(WelcomeUiState())
     val welcomeUiState: StateFlow<WelcomeUiState> = _welcomeUiState.asStateFlow()
@@ -38,7 +40,7 @@ class GaiaGuardViewModel: ViewModel() {
     var levelSelected by mutableStateOf(1)
         private set
 
-    var objectiveSelected by mutableStateOf(1)
+    var objectiveSelected by mutableStateOf(ObjectiveItem())
         private set
 
     // Game UI state
@@ -65,11 +67,12 @@ class GaiaGuardViewModel: ViewModel() {
         _welcomeUiState.value = _welcomeUiState.value.copy(participantName = name)
     }
 
-    fun updateObjectiveSelected(objectiveId: Int) {
-        objectiveSelected = objectiveId
+    fun updateObjectiveSelected(objectiveItem: ObjectiveItem) {
+        objectiveSelected = objectiveItem
     }
 
     fun updateLevelSelected(level: Int) {
+        Log.d("GaiaGuardViewModel", "updateLevelSelected called with level: $level")
         levelSelected = level
     }
 
@@ -175,7 +178,9 @@ class GaiaGuardViewModel: ViewModel() {
 
     private fun pickRandomWordAndShuffle(): String {
         if (!items.isEmpty()) {
-            val allWords = items.map { it.palabra }
+            for (item in items) {
+                allWords.add(item.palabra ?: "")
+            }
             // Continue picking up a new random word until you get one that hasn't been used before
             currentWord = allWords.random().toString()
             return if (usedWords.contains(currentWord)) {
@@ -184,6 +189,7 @@ class GaiaGuardViewModel: ViewModel() {
                 usedWords.add(currentWord)
                 shuffleCurrentWord(currentWord)
             }
+
         } else {
 
             currentWord = "Sin palabras disponibles"
@@ -204,13 +210,13 @@ class GaiaGuardViewModel: ViewModel() {
         return _objetiveSelectionUiState.value.task.find { it.numeroODS == objectiveId }?.nombre ?: ""
     }
 
-    fun getItemsFromObjective(objectiveId: String) {
+    fun getItemsFromObjective(objectiveId: String, level: Int) {
         Log.d("GaiaGuardViewModel", "getItemsFromObjective called with objectiveId: $objectiveId")
         viewModelScope.launch {
-            objectivesRepository.getItemsFromObjective(objectiveId).collect {
+            objectivesRepository.getItemsFromObjective(objectiveId, level).collect {
                 Log.d("GaiaGuardViewModel", "Items from objective $objectiveId: $it")
                 items = it
-                pickRandomWordAndShuffle()
+                resetGame()
             }
         }
     }

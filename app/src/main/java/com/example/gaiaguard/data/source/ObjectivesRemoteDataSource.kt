@@ -45,13 +45,14 @@ class ObjectivesRemoteDataSource(
         emit(objectiveItems)
     }
 
-    suspend fun getItemsFromObjective(objectiveId: String): Flow<List<Item>> = flow {
+    suspend fun getItemsFromObjective(objectiveId: String, level: Int): Flow<List<Item>> = flow {
         Log.d(TAG, "getItemsFromObjective: $objectiveId")
 
         val items = suspendCancellableCoroutine { continuation ->
             odsCollectionRef
                 .document(objectiveId)
                 .collection(Constants.Collection.ITEMS)
+                .whereEqualTo("nivel", level)
                 .get()
                 .addOnSuccessListener { result ->
                     val list = result.documents.map { document ->
