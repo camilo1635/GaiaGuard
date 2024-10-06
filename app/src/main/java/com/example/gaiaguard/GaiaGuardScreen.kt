@@ -97,7 +97,8 @@ fun GaiaGuardApp(
             composable(route = GaiaGuardScreen.Welcome.name) {
                 WelcomeScreen(
                     onNameEntered = { gaiaGuardViewModel.updateParticipantName(it) },
-                    onStartGame = {  })
+                    onStartGame = { navController.navigate(GaiaGuardScreen.ObjectiveSelection.name) },
+                    name = welcomeUiState.participantName)
             }
 
             composable(route = GaiaGuardScreen.LevelSelection.name) {

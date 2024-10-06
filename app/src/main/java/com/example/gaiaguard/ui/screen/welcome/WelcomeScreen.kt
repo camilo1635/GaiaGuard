@@ -37,7 +37,6 @@ fun WelcomeScreen(
     onStartGame: () -> Unit,
     name: String
 ) {
-    var participantName by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -73,8 +72,8 @@ fun WelcomeScreen(
 
         // Campo de entrada para el nombre
         OutlinedTextField(
-            value = participantName,
-            onValueChange = {  },
+            value = name,
+            onValueChange = { onNameEntered(it) },
             label = { Text("Ingresa tu nombre") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -84,7 +83,7 @@ fun WelcomeScreen(
         // Botón para comenzar el juego
         Button(
             onClick = {
-                onNameEntered(participantName)
+                onNameEntered(name)
                 onStartGame()
             },
             modifier = Modifier.fillMaxWidth()
