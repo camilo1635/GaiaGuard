@@ -67,6 +67,7 @@ fun ObjectivesItem(
     onClick: (Int) -> Unit)
 {
     Button(
+        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF167D78)),
         onClick = { onClick(option.id) },
         modifier = Modifier
             .fillMaxWidth()

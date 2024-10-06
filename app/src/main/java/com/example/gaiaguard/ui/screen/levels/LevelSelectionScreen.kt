@@ -71,6 +71,7 @@ fun LevelSelectionScreen(onLevelSelected: (Int) -> Unit) {
 
         // Botón para continuar
         Button(
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF167D78)),
             onClick = { onLevelSelected(selectedLevel) },
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -84,7 +85,7 @@ fun LevelButton(level: Int, isSelected: Boolean, onClick: () -> Unit) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (isSelected) Color.Blue else Color.Gray, // Cambia el color del contenedor si está seleccionado
+            containerColor = if (isSelected) Color(0xFF167D78) else Color.Gray, // Cambia el color del contenedor si está seleccionado
             contentColor = Color.White // Cambia el color del texto
         )
     ) {
