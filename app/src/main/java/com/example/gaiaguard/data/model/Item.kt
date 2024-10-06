@@ -5,4 +5,5 @@ data class Item(
     val linkimagen: String? = null,
     val nivel: Float? = null,
     val palabra: String? = null,
-    val referencia: String? = null,)
+    val referencia: String? = null,
+    val linkBio: String? = null)

@@ -67,7 +67,7 @@ fun ItemDetailsScreen(item: Item) {
 
         // Enlace de referenciaTextButton(onClick = { /* Acción al hacer clic en el enlace */ }) {
         Text(
-            text = item.referencia ?: "No hay referencias disponibles",
+            text = item.linkBio ?: "No hay referencias disponibles",
             style = TextStyle(
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = MaterialTheme.typography.bodyLarge.fontSize,
