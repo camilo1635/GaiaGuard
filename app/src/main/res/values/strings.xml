@@ -2,4 +2,22 @@
     <string name="app_name" translatable="false">GaiaGuard</string>
     <string name="app_description">Este es un juego interactivo de ordenar palabras. Mientras te diviertes jugando aprende sobre los Objetivos de Desarrollo Sostenible para el desarrollo mundial</string>
     <string name="back_button">Atrás</string>
+    <string name="level_selection">Selecciona un nivel</string>
+    <string name="level_one">Nivel uno</string>
+    <string name="level_two">Nivel dos</string>
+    <string name="level_three">Nivel tres</string>
+    <string name="continue_button">Continuar</string>
+    <string name="game">Ordena las letras</string>
+    <string name="objective_selection">Seleciona un tema</string>
+    <string name="submit">Comprobar</string>
+    <string name="skip">Pasar</string>
+    <string name="score">Tu puntaje: %d</string>
+    <string name="word_count">%d/10</string>
+    <string name="instructions">Descifra la palabra usando las letras en desorden</string>
+    <string name="wrong_guess">Intento fallido</string>
+    <string name="enter_your_word">Ingresa la palabra</string>
+    <string name="congratulations">Felicitaciones</string>
+    <string name="you_scored">Tu puntaje: %d</string>
+    <string name="exit">Salir</string>
+    <string name="play_again">Jugar de nuevo</string>
 </resources>
