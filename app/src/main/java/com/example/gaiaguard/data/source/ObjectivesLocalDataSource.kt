@@ -1,28 +1,28 @@
 package com.example.gaiaguard.data.source
 
-import com.example.gaiaguard.data.model.ObjetiveItem
+import com.example.gaiaguard.data.model.ObjectiveItem
 
 class ObjectivesLocalDataSource {
 
-    fun getTasks(): List<ObjetiveItem> {
+    fun getTasks(): List<ObjectiveItem> {
         return listOf(
-            ObjetiveItem(1, "Fin de la pobreza"),
-            ObjetiveItem(2, "Hambre cero"),
-            ObjetiveItem(3, "Salud y bienestar"),
-            ObjetiveItem(4, "Educación de calidad"),
-            ObjetiveItem(5, "Igualdad de género"),
-            ObjetiveItem(6, "Agua limpia y saneamiento"),
-            ObjetiveItem(7, "Energía asequible y no contaminante"),
-            ObjetiveItem(8, "Trabajo decente y crecimiento económico"),
-            ObjetiveItem(9, "Industria, innovación e infraestructura"),
-            ObjetiveItem(10, "Reducción de las desigualdades"),
-            ObjetiveItem(11, "Ciudades y comunidades sostenibles"),
-            ObjetiveItem(12, "Producción y consumo responsables"),
-            ObjetiveItem(13, "Agua por el clima"),
-            ObjetiveItem(14, "Vida Submarina"),
-            ObjetiveItem(15, "Vida de ecosistemas terrestres"),
-            ObjetiveItem(16, "Paz, justicia e instituciones solidas"),
-            ObjetiveItem(17, "Alianzas para lograr los objetivos")
+            ObjectiveItem(1, "Fin de la pobreza"),
+            ObjectiveItem(2, "Hambre cero"),
+            ObjectiveItem(3, "Salud y bienestar"),
+            ObjectiveItem(4, "Educación de calidad"),
+            ObjectiveItem(5, "Igualdad de género"),
+            ObjectiveItem(6, "Agua limpia y saneamiento"),
+            ObjectiveItem(7, "Energía asequible y no contaminante"),
+            ObjectiveItem(8, "Trabajo decente y crecimiento económico"),
+            ObjectiveItem(9, "Industria, innovación e infraestructura"),
+            ObjectiveItem(10, "Reducción de las desigualdades"),
+            ObjectiveItem(11, "Ciudades y comunidades sostenibles"),
+            ObjectiveItem(12, "Producción y consumo responsables"),
+            ObjectiveItem(13, "Agua por el clima"),
+            ObjectiveItem(14, "Vida Submarina"),
+            ObjectiveItem(15, "Vida de ecosistemas terrestres"),
+            ObjectiveItem(16, "Paz, justicia e instituciones solidas"),
+            ObjectiveItem(17, "Alianzas para lograr los objetivos")
         )
     }
 }

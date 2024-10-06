@@ -69,10 +69,6 @@ fun GameScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Text(
-            text = stringResource(R.string.app_name),
-            style = typography.titleLarge,
-        )
         GameLayout(
             onUserGuessChanged = { updateUserGuess(it) },
             wordCount = currentWordCount,
@@ -120,6 +116,7 @@ fun GameScreen(
         GameStatus(score = score, modifier = Modifier.padding(20.dp))
 
         if (isGameOver) {
+
             FinalScoreDialog(
                 score = score,
                 onPlayAgain = { resetGame() }
