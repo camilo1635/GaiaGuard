@@ -25,6 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.gaiaguard.ui.screen.game.GameScreen
+import com.example.gaiaguard.ui.screen.item.ItemDetailsScreen
 import com.example.gaiaguard.ui.screen.levels.LevelSelectionScreen
 import com.example.gaiaguard.ui.screen.menu.ObjectivesSelectionScreen
 import com.example.gaiaguard.ui.screen.welcome.WelcomeScreen
@@ -35,7 +36,8 @@ enum class GaiaGuardScreen(@StringRes val title: Int) {
     Welcome(title = R.string.app_name),
     ObjectiveSelection(title = R.string.objective_selection),
     LevelSelection(title = R.string.level_selection),
-    Game(title = R.string.game)
+    Game(title = R.string.game),
+    ItemDetails(title = R.string.item_details)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -138,13 +140,16 @@ fun GaiaGuardApp(
                 )
             }
 
-            /*
-            LaunchedEffect(key1 = levelSelectedUiState.levelSelected) {
-                if (levelSelectedUiState.levelSelected == ) {
-                    navController.navigate(MainActivityScreen.Management.name)
-                }
+            composable(route = GaiaGuardScreen.ItemDetails.name) {
+                gaiaGuardViewModel.updateShowItemDetails(false)
+                ItemDetailsScreen(item = gameUiState.item)
             }
-             */
+        }
+
+        LaunchedEffect(key1 = gameUiState.showItemDetails) {
+            if (gameUiState.showItemDetails) {
+                navController.navigate(GaiaGuardScreen.ItemDetails.name)
+            }
         }
     }
 }
