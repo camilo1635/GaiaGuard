@@ -12,8 +12,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -38,6 +42,9 @@ fun WelcomeScreen(
     name: String
 ) {
 
+    var name by remember { mutableStateOf("") }
+    var showSnackbar by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -50,7 +57,7 @@ fun WelcomeScreen(
 
         // Imagen del juego (reemplázala con tu imagen)
         Image(
-            painter = painterResource(id = R.drawable.icono), // Reemplaza con tuimagen
+            painter = painterResource(id = R.drawable.welcome), // Reemplaza con tuimagen
             contentDescription = "Descripción del juego",
             modifier = Modifier.size(200.dp)
         )
@@ -65,24 +72,47 @@ fun WelcomeScreen(
 
         Spacer(modifier = Modifier.height(64.dp))
 
+
         // Campo de entrada para el nombre
         OutlinedTextField(
             value = name,
-            onValueChange = { onNameEntered(it) },
+            onValueChange = { onNameEntered(it)
+                name = it },
             label = { Text("Ingresa tu nombre") },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
+
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // Botón para comenzar el juego
         Button(
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF167D78)),
             onClick = {
-                onStartGame()
+                if (name.isBlank()) {
+                    showSnackbar = true
+                }else{
+                    onStartGame()
+                }
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text("¡Comenzar juego!")
+        }
+    }
+
+    if (showSnackbar) {
+        Snackbar(
+            action = {
+                TextButton(onClick = {
+                    showSnackbar = false
+                }){
+                    Text("Aceptar")
+                }
+            },
+            modifier = Modifier.padding(8.dp)
+        ){
+            Text( "Por favor, ingresa tu nombre")
         }
     }
 }

@@ -15,6 +15,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -29,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -88,7 +90,9 @@ fun GameScreen(
         ) {
 
             Button(
+
                 modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF167D78)),
                 onClick = { checkUserGuess() }
             ) {
                 Text(
@@ -102,6 +106,7 @@ fun GameScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
+                    color = Color(0xFF167D78),
                     text = stringResource(R.string.skip),
                     fontSize = 16.sp
                 )
@@ -154,11 +159,12 @@ fun GameLayout(
             verticalArrangement = Arrangement.spacedBy(mediumPadding),
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(mediumPadding)
+
         ) {
             Text(
                 modifier = Modifier
                     .clip(shapes.medium)
-                    .background(colorScheme.surfaceTint)
+                    .background(Color(0xFF167D78))
                     .padding(horizontal = 10.dp, vertical = 4.dp)
                     .align(alignment = Alignment.End),
                 text = stringResource(R.string.word_count, wordCount),
