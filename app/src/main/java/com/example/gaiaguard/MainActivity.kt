@@ -16,6 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.gaiaguard.ui.screen.menu.MyOptionsList
+import com.example.gaiaguard.ui.screen.menu.MyOptionsListApp
 import com.example.gaiaguard.ui.theme.GaiaGuardTheme
 
 class MainActivity : ComponentActivity() {
