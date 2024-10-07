@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -44,19 +45,32 @@ fun LevelSelectionScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "$name, tu objetivo es:",
-            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            text = "$name, tu tema es:",
+            style = TextStyle(
+                fontSize = MaterialTheme.typography.headlineLarge.fontSize,
+                fontStyle = MaterialTheme.typography.headlineLarge.fontStyle,
+                fontFamily = MaterialTheme.typography.headlineSmall.fontFamily)
         )
+
+        Spacer(modifier = Modifier.height(80.dp))
+
         Text(
             text = objective,
-            style = TextStyle(fontSize = 28.sp, fontWeight = FontWeight.Bold)
+            style = TextStyle(
+                fontSize = MaterialTheme.typography.headlineMedium.fontSize,
+                fontStyle = MaterialTheme.typography.headlineMedium.fontStyle,
+                fontFamily = MaterialTheme.typography.headlineSmall.fontFamily,
+                fontWeight = FontWeight.Bold)
         )
 
         Spacer(modifier = Modifier.height(128.dp))
 
         Text(
             text = stringResource(id = R.string.level_description),
-            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            style = TextStyle(
+                fontSize = MaterialTheme.typography.headlineSmall.fontSize,
+                fontStyle = MaterialTheme.typography.headlineSmall.fontStyle,
+                fontFamily = MaterialTheme.typography.headlineSmall.fontFamily,)
         )
 
         Spacer(modifier = Modifier.height(128.dp))
